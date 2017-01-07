@@ -1,0 +1,8 @@
+engines:
+  flog:
+    enabled: true
+ratings:
+  paths:
+  - "**.rb"
+exclude_paths:
+  - test/**/*

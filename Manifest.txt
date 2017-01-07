@@ -1,0 +1,10 @@
+.codeclimate.yml
+.dockerignore
+Dockerfile
+History.rdoc
+Manifest.txt
+README.rdoc
+Rakefile
+bin/codeclimate-flog
+lib/cc/engine/flog.rb
+test/test_sanity.rb

@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require "json"
+
+$: << File.expand_path("../../lib", __FILE__)
+
+require "cc/engine/flog"
+
+path = "/config.json"
+config = File.exists?(path) ? JSON.parse(File.read(path)) : {}
+
+CC::Engine::Flog.new("/code", config).run
