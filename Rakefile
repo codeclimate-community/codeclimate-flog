@@ -26,8 +26,15 @@ task :image do
   sh "docker build --rm -t #{IMAGE_NAME} ."
 end
 
+ENV["CODECLIMATE_DEBUG"] = "1"
+
 task :run do
   sh "codeclimate analyze --dev"
+end
+
+task :purge do
+  sh "docker ps -a  | awk '!/gc-config/ && /Exited/ { print $1 }' | xargs docker rm"
+  sh "docker images | grep none.*none | awk '{print $3}' | xargs docker rmi"
 end
 
 # vim: syntax=ruby
