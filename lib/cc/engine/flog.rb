@@ -21,7 +21,7 @@ module CC
 
       DEFAULTS = {
                   "include_paths" => ["."],
-                  "all"           => true, # users must opt-in
+                  "all"           => false, # users must opt-in
                  }
 
       def initialize(root, config = {}, io = STDOUT)
