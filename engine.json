@@ -1,0 +1,11 @@
+{
+  "name": "codeclimate-flog",
+  "description": "codeclimate-flog uses the flog gem to measure ruby complexity.",
+  "maintainer": {
+    "name": "Ryan Davis",
+    "email": "ryand-ruby@zenspider.com"
+  },
+  "languages" : ["Ruby"],
+  "version": "1.0.0",
+  "spec_version": "0.2.0"
+}
