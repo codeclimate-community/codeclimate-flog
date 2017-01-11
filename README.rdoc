@@ -1,27 +1,21 @@
-= blah
+= codeclimate-flog
 
-home :: https://github.com/seattlerb/blah
-rdoc :: http://docs.seattlerb.org/blah
+home :: https://github.com/seattlerb/codeclimate-flog
+rdoc :: http://docs.seattlerb.org/codeclimate-flog
 
 == DESCRIPTION:
 
-FIX (describe your package)
-
-== FEATURES/PROBLEMS:
-
-* FIX (list of features or problems)
-
-== SYNOPSIS:
-
-  FIX (code sample of usage)
+Codeclimate integration for the flog ruby complexity analyzer.
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* flog ~> 4.4
 
 == INSTALL:
 
-* sudo gem install blah
+You don't need to install this. Go use it on codeclimate.com
+
+* sudo gem install codeclimate-flog
 
 == LICENSE:
 
