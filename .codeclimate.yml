@@ -1,8 +1,9 @@
 engines:
   flog:
     enabled: true
-ratings:
-  paths:
-  - "**.rb"
+    config:
+      all: false
+include_paths:
+- "lib/**/*.rb"
 exclude_paths:
-  - test/**/*
+- test/
