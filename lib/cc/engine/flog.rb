@@ -11,7 +11,7 @@ module CC
       # TODO: possibly scale remediation score exponentially
       # TODO: XXX#main is locationless. improve flog to report first sighting?
       # TODO: possibly add score to fingerprint?
-      # TODO: Finish runing through the QA spreadsheet
+      # TODO: Finish running through the QA spreadsheet
 
       attr_accessor :dir
       attr_accessor :config
