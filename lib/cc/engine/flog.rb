@@ -28,7 +28,14 @@ module CC
         self.dir    = root
         self.config = config = normalize_conf config
         self.io     = io
-        self.flog   = ::Flog.new :all => config["all"], :continue => true
+
+        options = {
+                   :all       => config["all"],
+                   :continue  => true,
+                   :threshold => Float(config["threshold"] || 0.6),
+                  }
+
+        self.flog   = ::Flog.new options
 
         paths = config["include_paths"].dup
         expander = PathExpander.new paths, "**/*.{rb,rake}"
@@ -53,8 +60,9 @@ module CC
         config["include_paths"] = top_config["include_paths"] if
           top_config["include_paths"]
 
-        # fix specific keys that are not correct types
-        config["all"] = reparse config["all"]
+        config.each do |k,v|
+          config[k] = reparse v
+        end
 
         config
       end

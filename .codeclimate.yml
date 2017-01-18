@@ -3,6 +3,7 @@ engines:
     enabled: true
     config:
       all: false
+      threshold: 0.6
 include_paths:
 - "lib/**/*.rb"
 exclude_paths:

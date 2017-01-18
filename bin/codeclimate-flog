@@ -2,7 +2,8 @@
 
 require "json"
 
-$: << File.expand_path("../../lib", __FILE__)
+$:.unshift File.expand_path("../../lib", __FILE__)
+$:.unshift File.expand_path("../../flog/lib", __FILE__)
 
 require "cc/engine/flog"
 

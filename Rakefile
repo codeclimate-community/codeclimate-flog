@@ -12,6 +12,10 @@ end
 
 task :all => %w[test image run]
 
+task :sync do
+  sh "rsync -avPC --del --exclude unreadable.rb ~/Work/p4/zss/src/flog/dev/ flog"
+end
+
 IMAGE_NAME = "codeclimate/codeclimate-flog"
 
 ## TODO: I haven't figured out testing in docker yet...
