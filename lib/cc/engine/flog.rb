@@ -32,7 +32,7 @@ module CC
         options = {
                    :all       => config["all"],
                    :continue  => true,
-                   :threshold => Float(config["threshold"] || 0.6),
+                   :threshold => config["threshold"] || 0.6,
                   }
 
         self.flog   = ::Flog.new options
@@ -53,24 +53,31 @@ module CC
       def normalize_conf top_config
         # fix the top, if necessary
         top_config = reparse top_config
-        top_config["config"] = reparse(top_config["config"]) || {}
+        top_config["config"] ||= {}
 
         # normalize contents
         config = DEFAULTS.merge top_config["config"]
         config["include_paths"] = top_config["include_paths"] if
           top_config["include_paths"]
 
-        config.each do |k,v|
-          config[k] = reparse v
-        end
-
         config
       end
 
+      ##
+      # .codeclimate.yml is not parsed by a YAML compliant library and
+      # values come back incorrect. Specifically, nil => "", false =>
+      # "false" break a lot of logic. This method reparses the values,
+      # recursively if necessary.
+
       def reparse val
         require "yaml"
-        if val.is_a? String then
+        case val
+        when String then
           YAML.load val
+        when Array then
+          val.map { |v| reparse v }
+        when Hash then
+          Hash[val.map { |k, v| [reparse(k), reparse(v)] }]
         else
           val
         end
