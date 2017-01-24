@@ -104,6 +104,14 @@ module CC
         end
       end
 
+      CONTENT = <<-END
+Flog calculates the ABC score for methods.
+The ABC score is based on assignments, branches (method calls), and conditions.
+
+You can read more about [ABC metrics](http://c2.com/cgi/wiki?AbcMetric) or
+[the flog tool](http://www.zenspider.com/projects/flog.html)"
+END
+
       ##
       # Create an issue hash from +name+, +datum+, +location+, and +score+.
 
@@ -115,6 +123,7 @@ module CC
          "check_name"  => "Flog Score",
          "description" => datum,
          "categories"  => ["Complexity"],
+         "content"     => { "body" => CONTENT },
          "remediation" => score,
          "fingerprint" => Digest::MD5.hexdigest(name),
          "location"    => {
