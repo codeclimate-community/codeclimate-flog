@@ -4,7 +4,7 @@ MAINTAINER Ryan Davis
 
 WORKDIR /usr/src/app
 
-RUN gem install flog -N
+RUN gem install flog -N -v "~> 4.6"
 
 RUN adduser -u 9000 -D -h /usr/src/app -s /bin/false app
 COPY . /usr/src/app

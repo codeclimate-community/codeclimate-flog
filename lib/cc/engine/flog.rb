@@ -116,8 +116,9 @@ END
       # Create an issue hash from +name+, +datum+, +location+, and +score+.
 
       def issue name, datum, location, score
-        file, line = location.split(":", 2)
-        line = line.to_i
+        file, l_start, l_end = [$1, $2.to_i, $3.to_i] if
+          location =~ /^(.+?):(\d+)-(\d+)$/
+
         {
          "type"        => "issue",
          "check_name"  => "Flog Score",
@@ -128,7 +129,7 @@ END
          "fingerprint" => Digest::MD5.hexdigest(name),
          "location"    => {
                            "path"  => file,
-                           "lines" => {"begin" => line, "end" => line}
+                           "lines" => {"begin" => l_start, "end" => l_end}
                           }
         }
       end
