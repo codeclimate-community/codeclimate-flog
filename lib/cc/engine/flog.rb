@@ -95,7 +95,7 @@ module CC
 
             next unless location # XXX#main is location-less, skip for now
 
-            datum = "%s scored %.1f" % [name, score]
+            datum = "Complex method %s (%.1f)" % [name, score]
             issue = self.issue name, datum, location, score
 
             io.print issue.to_json
