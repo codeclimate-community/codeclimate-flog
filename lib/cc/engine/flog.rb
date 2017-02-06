@@ -111,6 +111,8 @@ The ABC score is based on assignments, branches (method calls), and conditions.
 You can read more about [ABC metrics](http://c2.com/cgi/wiki?AbcMetric) or
 [the flog tool](http://www.zenspider.com/projects/flog.html)"
 END
+      BASE_REMEDIATION_POINTS = 200_000
+      OVERAGE_REMEDIATION_POINTS = 50_000
 
       ##
       # Create an issue hash from +name+, +datum+, +location+, and +score+.
@@ -119,13 +121,17 @@ END
         file, l_start, l_end = [$1, $2.to_i, $3.to_i] if
           location =~ /^(.+?):(\d+)-(\d+)$/
 
+        remediation_points =
+          (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * score)).
+            round
+
         {
          "type"        => "issue",
          "check_name"  => "Flog Score",
          "description" => datum,
          "categories"  => ["Complexity"],
          "content"     => { "body" => CONTENT },
-         "remediation" => score,
+         "remediation_points" => remediation_points,
          "fingerprint" => Digest::MD5.hexdigest(name),
          "location"    => {
                            "path"  => file,
