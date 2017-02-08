@@ -1,6 +1,7 @@
 require "path_expander"
 require "flog"
 require "digest/md5"
+require "json"
 
 module CC
   module Engine
@@ -91,7 +92,7 @@ module CC
           flog.flog(*files)
 
           flog.each_by_score flog.threshold do |name, score, call_list|
-            location = flog.method_locations[name]
+            location = parse_location flog.method_locations[name]
 
             next unless location # XXX#main is location-less, skip for now
 
@@ -118,9 +119,6 @@ END
       # Create an issue hash from +name+, +datum+, +location+, and +score+.
 
       def issue name, datum, location, score
-        file, l_start, l_end = [$1, $2.to_i, $3.to_i] if
-          location =~ /^(.+?):(\d+)-(\d+)$/
-
         remediation_points =
           (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * score)).
             round
@@ -133,11 +131,24 @@ END
          "content"     => { "body" => CONTENT },
          "remediation_points" => remediation_points,
          "fingerprint" => Digest::MD5.hexdigest(name),
-         "location"    => {
-                           "path"  => file,
-                           "lines" => {"begin" => l_start, "end" => l_end}
-                          }
+         "location"    => location
         }
+      end
+
+      def parse_location location
+        return unless location
+
+        file, l_start, l_end = [$1, $2.to_i, $3.to_i] if
+          location =~ /^(.+?):(\d+)-(\d+)$/
+
+        if file
+          {
+            "path" => file,
+            "lines" => {"begin" => l_start, "end" => l_end}
+          }
+        else
+          STDERR.puts "Could not parse location: #{location.inspect} for issue with name #{name.inspect}"
+        end
       end
     end
   end
