@@ -1,6 +1,7 @@
 require "path_expander"
 require "flog"
 require "digest/md5"
+require "json"
 
 module CC
   module Engine
