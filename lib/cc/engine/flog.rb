@@ -147,7 +147,7 @@ END
             "lines" => {"begin" => l_start, "end" => l_end}
           }
         else
-          STDERR.puts "Could not parse location: #{location}"
+          STDERR.puts "Could not parse location: #{location.inspect} for issue with name #{name.inspect}"
         end
       end
     end
