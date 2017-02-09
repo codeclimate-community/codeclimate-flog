@@ -1,7 +1,6 @@
 engines:
   flog:
     enabled: true
-    channel: beta
     config:
       all: false
       threshold: 0.6
