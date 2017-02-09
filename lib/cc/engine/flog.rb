@@ -98,8 +98,10 @@ module CC
             datum = "Complex method %s (%.1f)" % [name, score]
             issue = self.issue name, datum, location, score
 
-            io.print issue.to_json
-            io.print "\0"
+            if issue then
+              io.print issue.to_json
+              io.print "\0"
+            end
           end
         end
       end
@@ -120,6 +122,11 @@ END
       def issue name, datum, location, score
         file, l_start, l_end = [$1, $2.to_i, $3.to_i] if
           location =~ /^(.+?):(\d+)-(\d+)$/
+
+        unless file && l_start && l_end then
+          warn "Couldn't parse location %p for %p" % [location, name]
+          return
+        end
 
         remediation_points =
           (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * score)).
