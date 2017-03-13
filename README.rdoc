@@ -12,12 +12,20 @@ To use, add a flog section to your .codeclimate.yml engines hash:
     engines:
       flog:
         enabled: true
+
+If you'd like the engine to only report issues for the most complex methods in
+your repo, you can set a threshold. For example:
+
+    engines:
+      flog:
+        enabled: true
         config:
           all: false
           threshold: 0.6
 
-You can either toggle :all to true (defaults to false) to report
-everything or tweak the reporting cutoff threshold (defaults to 60%).
+When configured like this, the engine will only emit issues for your most
+complex issues. Be aware that as you improve your most complex issues, new
+issues will show up for less complex issues.
 
 == REQUIREMENTS:
 

@@ -21,7 +21,7 @@ module CC
 
       DEFAULTS = {
                   "include_paths" => ["."],
-                  "all"           => false, # users must opt-in
+                  "all"           => true, # users must opt-out
                  }
 
       def initialize(root, config = {}, io = STDOUT)
@@ -32,7 +32,7 @@ module CC
         options = {
                    :all       => config["all"],
                    :continue  => true,
-                   :threshold => config["threshold"] || 0.6,
+                   :threshold => config["threshold"]
                   }
 
         self.flog   = ::Flog.new options
