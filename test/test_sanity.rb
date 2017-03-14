@@ -17,7 +17,7 @@ class TestSanity < Minitest::Test
 
   def assert_init exp_all, cfg = nil
     root = "."
-    exp = ["./lib/cc/engine/flog.rb", "./test/test_sanity.rb"]
+    exp = ["./test/test_sanity.rb", "./lib/cc/engine/flog.rb"]
     ccflog = CC::Engine::Flog.new(root, config(cfg))
     assert_equal exp_all, ccflog.config["all"]
     assert_equal exp, ccflog.files
