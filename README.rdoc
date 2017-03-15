@@ -13,7 +13,7 @@ To use, add a flog section to your .codeclimate.yml engines hash:
       flog:
         enabled: true
         config:
-          max: 20.0
+          max_score: 20.0
 
 Note: specifying a maximum allowed complexity score is optional.
 
