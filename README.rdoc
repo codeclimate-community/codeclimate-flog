@@ -16,6 +16,7 @@ To use, add a flog section to your .codeclimate.yml engines hash:
           max_score: 20.0
 
 Note: specifying a maximum allowed complexity score is optional.
+The default is 20.0.
 
 == REQUIREMENTS:
 
