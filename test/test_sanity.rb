@@ -15,16 +15,16 @@ class TestSanity < Minitest::Test
     end
   end
 
-  def assert_init exp_all, cfg = nil
+  def assert_init exp_max, cfg = nil
     root = "."
     exp = ["./test/test_sanity.rb", "./lib/cc/engine/flog.rb"]
     ccflog = CC::Engine::Flog.new(root, config(cfg))
-    assert_equal exp_all, ccflog.config["all"]
+    assert_equal exp_max, ccflog.config["max"]
     assert_equal exp, ccflog.files
 
     exp_conf = {
                 "include_paths" => ["."],
-                "all" => exp_all,
+                "max" => exp_max,
                }
     assert_equal exp_conf, ccflog.config
 
@@ -34,12 +34,9 @@ class TestSanity < Minitest::Test
     # https://github.com/codeclimate/codeclimate-yaml/issues/38
     # https://github.com/codeclimate/codeclimate-yaml/issues/39
 
-    assert_init false                   # no config--expected and good
-    assert_init true,  "all" => true    # true config
-    assert_init true,  "all" => "true"  # buggy "true" config
-    assert_init false, "all" => false   # false config
-    assert_init false, "all" => "false" # buggy "false" config
-    assert_init false, ""               # buggy "" config
+    assert_init 20.0                  # no config--expected and good
+    assert_init 17.5, "max" => "17.5" # coercing string to float
+    assert_init 20.0, ""              # buggy "" config
   end
 
   def test_run

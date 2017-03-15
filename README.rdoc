@@ -13,11 +13,9 @@ To use, add a flog section to your .codeclimate.yml engines hash:
       flog:
         enabled: true
         config:
-          all: false
-          threshold: 0.6
+          max: 20.0
 
-You can either toggle :all to true (defaults to false) to report
-everything or tweak the reporting cutoff threshold (defaults to 60%).
+Note: specifying a maximum allowed complexity score is optional.
 
 == REQUIREMENTS:
 

@@ -21,7 +21,7 @@ module CC
 
       DEFAULTS = {
                   "include_paths" => ["."],
-                  "all"           => false, # users must opt-in
+                  "max"           => 20.0
                  }
 
       def initialize(root, config = {}, io = STDOUT)
@@ -30,9 +30,8 @@ module CC
         self.io     = io
 
         options = {
-                   :all       => config["all"],
+                   :all       => true,
                    :continue  => true,
-                   :threshold => config["threshold"] || 0.6,
                   }
 
         self.flog   = ::Flog.new options
@@ -90,10 +89,11 @@ module CC
         Dir.chdir dir do
           flog.flog(*files)
 
-          flog.each_by_score flog.threshold do |name, score, call_list|
+          flog.each_by_score do |name, score, call_list|
             location = flog.method_locations[name]
 
             next unless location # XXX#main is location-less, skip for now
+            next unless score > config["max"]
 
             datum = "Complex method %s (%.1f)" % [name, score]
             issue = self.issue name, datum, location, score

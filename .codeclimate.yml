@@ -1,8 +1,5 @@
 engines:
   flog:
     enabled: true
-    config:
-      all: false
-      threshold: 0.6
 exclude_paths:
 - test/
