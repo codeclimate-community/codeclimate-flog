@@ -129,7 +129,7 @@ END
         end
 
         remediation_points =
-          (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * score)).
+          (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * (score - config["max"]))).
             round
 
         {
