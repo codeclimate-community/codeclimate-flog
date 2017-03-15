@@ -21,7 +21,7 @@ module CC
 
       DEFAULTS = {
                   "include_paths" => ["."],
-                  "max"           => 20.0
+                  "max"           => 20.0,
                  }
 
       def initialize(root, config = {}, io = STDOUT)
