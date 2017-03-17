@@ -17,10 +17,10 @@ class TestSanity < Minitest::Test
 
   def assert_init exp_score_threshold, cfg = nil
     root = "."
-    exp = ["./test/test_sanity.rb", "./lib/cc/engine/flog.rb"]
+    exp = ["./lib/cc/engine/flog.rb", "./test/test_sanity.rb"].sort
     ccflog = CC::Engine::Flog.new(root, config(cfg))
     assert_equal exp_score_threshold, ccflog.config["score_threshold"]
-    assert_equal exp, ccflog.files
+    assert_equal exp, ccflog.files.sort
 
     exp_conf = {
                 "include_paths" => ["."],
