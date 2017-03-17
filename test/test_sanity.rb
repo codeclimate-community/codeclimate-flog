@@ -15,16 +15,16 @@ class TestSanity < Minitest::Test
     end
   end
 
-  def assert_init exp_max_score, cfg = nil
+  def assert_init exp_score_threshold, cfg = nil
     root = "."
     exp = ["./test/test_sanity.rb", "./lib/cc/engine/flog.rb"]
     ccflog = CC::Engine::Flog.new(root, config(cfg))
-    assert_equal exp_max_score, ccflog.config["max_score"]
+    assert_equal exp_score_threshold, ccflog.config["score_threshold"]
     assert_equal exp, ccflog.files
 
     exp_conf = {
                 "include_paths" => ["."],
-                "max_score" => exp_max_score,
+                "score_threshold" => exp_score_threshold,
                }
     assert_equal exp_conf, ccflog.config
 
@@ -35,7 +35,7 @@ class TestSanity < Minitest::Test
     # https://github.com/codeclimate/codeclimate-yaml/issues/39
 
     assert_init 20.0                        # no config--expected and good
-    assert_init 17.5, "max_score" => "17.5" # coercing string to float
+    assert_init 17.5, "score_threshold" => "17.5" # coercing string to float
     assert_init 20.0, ""                    # buggy "" config
   end
 

@@ -21,7 +21,7 @@ module CC
 
       DEFAULTS = {
                   "include_paths" => ["."],
-                  "max_score"     => 20.0,
+                  "score_threshold"     => 20.0,
                  }
 
       def initialize(root, config = {}, io = STDOUT)
@@ -93,7 +93,7 @@ module CC
             location = flog.method_locations[name]
 
             next unless location # XXX#main is location-less, skip for now
-            next unless score > config["max_score"]
+            next unless score > config["score_threshold"]
 
             datum = "Complex method %s (%.1f)" % [name, score]
             issue = self.issue name, datum, location, score
@@ -146,7 +146,7 @@ END
       private
 
       def remediation_points score
-        (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * (score - config["max_score"]))).
+        (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * (score - config["score_threshold"]))).
           round
       end
     end
