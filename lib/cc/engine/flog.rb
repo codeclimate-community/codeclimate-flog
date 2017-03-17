@@ -128,26 +128,23 @@ END
           return
         end
 
+
+        remediation_points = (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * (score - config["score_threshold"]))).
+          round
+
         {
          "type"        => "issue",
          "check_name"  => "Flog Score",
          "description" => datum,
          "categories"  => ["Complexity"],
          "content"     => { "body" => CONTENT },
-         "remediation_points" => (remediation_points score),
+         "remediation_points" => remediation_points,
          "fingerprint" => Digest::MD5.hexdigest(name),
          "location"    => {
                            "path"  => file,
                            "lines" => {"begin" => l_start, "end" => l_end}
                           }
         }
-      end
-
-      private
-
-      def remediation_points score
-        (BASE_REMEDIATION_POINTS + (OVERAGE_REMEDIATION_POINTS * (score - config["score_threshold"]))).
-          round
       end
     end
   end
