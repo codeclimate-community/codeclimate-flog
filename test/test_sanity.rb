@@ -34,9 +34,9 @@ class TestSanity < Minitest::Test
     # https://github.com/codeclimate/codeclimate-yaml/issues/38
     # https://github.com/codeclimate/codeclimate-yaml/issues/39
 
-    assert_init 20.0                        # no config--expected and good
+    assert_init 20.0                              # no config--expected and good
     assert_init 17.5, "score_threshold" => "17.5" # coercing string to float
-    assert_init 20.0, ""                    # buggy "" config
+    assert_init 20.0, ""                          # buggy "" config
   end
 
   def test_run

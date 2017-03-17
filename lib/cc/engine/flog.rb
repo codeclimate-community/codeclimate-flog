@@ -20,8 +20,8 @@ module CC
       attr_accessor :files
 
       DEFAULTS = {
-                  "include_paths" => ["."],
-                  "score_threshold"     => 20.0,
+                  "include_paths"   => ["."],
+                  "score_threshold" => 20.0,
                  }
 
       def initialize(root, config = {}, io = STDOUT)
