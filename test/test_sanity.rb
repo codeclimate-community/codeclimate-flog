@@ -15,16 +15,16 @@ class TestSanity < Minitest::Test
     end
   end
 
-  def assert_init exp_all, cfg = nil
+  def assert_init exp_score_threshold, cfg = nil
     root = "."
-    exp = ["./lib/cc/engine/flog.rb", "./test/test_sanity.rb"]
+    exp = ["./lib/cc/engine/flog.rb", "./test/test_sanity.rb"].sort
     ccflog = CC::Engine::Flog.new(root, config(cfg))
-    assert_equal exp_all, ccflog.config["all"]
-    assert_equal exp, ccflog.files
+    assert_equal exp_score_threshold, ccflog.config["score_threshold"]
+    assert_equal exp, ccflog.files.sort
 
     exp_conf = {
                 "include_paths" => ["."],
-                "all" => exp_all,
+                "score_threshold" => exp_score_threshold,
                }
     assert_equal exp_conf, ccflog.config
 
@@ -34,12 +34,9 @@ class TestSanity < Minitest::Test
     # https://github.com/codeclimate/codeclimate-yaml/issues/38
     # https://github.com/codeclimate/codeclimate-yaml/issues/39
 
-    assert_init false                   # no config--expected and good
-    assert_init true,  "all" => true    # true config
-    assert_init true,  "all" => "true"  # buggy "true" config
-    assert_init false, "all" => false   # false config
-    assert_init false, "all" => "false" # buggy "false" config
-    assert_init false, ""               # buggy "" config
+    assert_init 20.0                              # no config--expected and good
+    assert_init 17.5, "score_threshold" => "17.5" # coercing string to float
+    assert_init 20.0, ""                          # buggy "" config
   end
 
   def test_run
