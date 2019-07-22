@@ -106,13 +106,13 @@ module CC
         end
       end
 
-      CONTENT = <<-END
-Flog calculates the ABC score for methods.
-The ABC score is based on assignments, branches (method calls), and conditions.
+      CONTENT = <<~END
+        Flog calculates the ABC score for methods.
+        The ABC score is based on assignments, branches (method calls), and conditions.
 
-You can read more about [ABC metrics](http://c2.com/cgi/wiki?AbcMetric) or
-[the flog tool](http://www.zenspider.com/projects/flog.html)
-END
+        You can read more about [ABC metrics](http://c2.com/cgi/wiki?AbcMetric) or
+        [the flog tool](http://www.zenspider.com/projects/flog.html)
+      END
       BASE_REMEDIATION_POINTS = 200_000
       OVERAGE_REMEDIATION_POINTS = 50_000
 
