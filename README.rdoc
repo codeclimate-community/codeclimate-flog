@@ -5,7 +5,7 @@ rdoc :: http://docs.seattlerb.org/codeclimate-flog
 
 == DESCRIPTION:
 
-Codeclimate integration for the flog ruby complexity analyzer.
+Codeclimate integration for the flog[https://github.com/seattlerb/flog] ruby complexity analyzer.
 
 To use, add a flog section to your .codeclimate.yml engines hash:
 
