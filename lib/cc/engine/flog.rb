@@ -25,20 +25,17 @@ module CC
                  }
 
       def initialize(root, config = {}, io = STDOUT)
-        self.dir    = root
-        self.config = config = normalize_conf(config)
-        self.io     = io
+        @dir = root
+        @config = config = normalize_conf(config)
+        @io = io
 
-        options = {
-                   :all       => true,
-                   :continue  => true,
-                  }
+        options = { all: true, continue: true }
 
-        self.flog   = ::Flog.new(options)
+        @flog   = ::Flog.new(options)
 
         paths = config["include_paths"].dup
         expander = PathExpander.new(paths, "**/*.{rb,rake}")
-        self.files = expander.process.select { |s| s =~ /\.(?:rb|rake)$/ }
+        @files = expander.process.select { |s| s =~ /\.(?:rb|rake)$/ }
       end
 
       ##
@@ -96,7 +93,7 @@ module CC
             next unless score > config["score_threshold"]
 
             datum = "Complex method %s (%.1f)" % [name, score]
-            issue = self.issue(name, datum, location, score)
+            issue = issue(name, datum, location, score)
 
             if issue then
               io.print issue.to_json
