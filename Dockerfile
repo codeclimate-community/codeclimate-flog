@@ -1,14 +1,18 @@
-FROM ruby:2.6-alpine
+FROM ruby:2.7.7-alpine3.16
 
-MAINTAINER Ryan Davis
+LABEL maintainer="Ryan Davis"
 
 WORKDIR /usr/src/app
 
-RUN gem install --silent hoe minitest rake && \
-    gem install ruby_parser --version 3.13.1 &&  \
-    gem install --silent flog -N -v "~> 4.6" # currently 4.6.4
+COPY Gemfile /usr/src/app/
+COPY Gemfile.lock /usr/src/app/
 
-RUN adduser -u 9000 -D -h /usr/src/app -s /bin/false app
+RUN apk update && \
+    apk add build-base git && \
+    bundle && \
+    apk del build-base
+
+RUN adduser -u 9000 -D -g "app" app
 COPY . /usr/src/app
 RUN chown -R app:app /usr/src/app
 
