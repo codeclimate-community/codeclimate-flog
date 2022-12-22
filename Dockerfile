@@ -8,9 +8,8 @@ COPY Gemfile /usr/src/app/
 COPY Gemfile.lock /usr/src/app/
 
 RUN apk update && \
-    apk add build-base git && \
-    bundle && \
-    apk del build-base
+    apk add git && \
+    bundle
 
 RUN adduser -u 9000 -D -g "app" app
 COPY . /usr/src/app
