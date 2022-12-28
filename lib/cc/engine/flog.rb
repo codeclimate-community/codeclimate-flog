@@ -25,20 +25,17 @@ module CC
                  }
 
       def initialize(root, config = {}, io = STDOUT)
-        self.dir    = root
-        self.config = config = normalize_conf config
-        self.io     = io
+        @dir = root
+        @config = config = normalize_conf(config)
+        @io = io
 
-        options = {
-                   :all       => true,
-                   :continue  => true,
-                  }
+        options = { all: true, continue: true }
 
-        self.flog   = ::Flog.new options
+        @flog   = ::Flog.new(options)
 
         paths = config["include_paths"].dup
-        expander = PathExpander.new paths, "**/*.{rb,rake}"
-        self.files = expander.process.select { |s| s =~ /\.(?:rb|rake)$/ }
+        expander = PathExpander.new(paths, "**/*.{rb,rake}")
+        @files = expander.process.select { |s| s =~ /\.(?:rb|rake)$/ }
       end
 
       ##
@@ -49,13 +46,13 @@ module CC
       # https://github.com/codeclimate/codeclimate-yaml/issues/38
       # https://github.com/codeclimate/codeclimate-yaml/issues/39
 
-      def normalize_conf top_config
+      def normalize_conf(top_config)
         # fix the top, if necessary
-        top_config = reparse top_config
+        top_config = reparse(top_config)
         top_config["config"] ||= {}
 
         # normalize contents
-        config = DEFAULTS.merge top_config["config"]
+        config = DEFAULTS.merge(top_config["config"])
         config["include_paths"] = top_config["include_paths"] if
           top_config["include_paths"]
 
@@ -68,13 +65,13 @@ module CC
       # "false" break a lot of logic. This method reparses the values,
       # recursively if necessary.
 
-      def reparse val
+      def reparse(val)
         require "yaml"
         case val
         when String then
-          YAML.load val
+          YAML.safe_load(val)
         when Array then
-          val.map { |v| reparse v }
+          val.map { |v| reparse(v) }
         when Hash then
           Hash[val.map { |k, v| [reparse(k), reparse(v)] }]
         else
@@ -86,7 +83,7 @@ module CC
       # Run flog and print issues as they come up.
 
       def run
-        Dir.chdir dir do
+        Dir.chdir(dir) do
           flog.flog(*files)
 
           flog.each_by_score do |name, score, call_list|
@@ -96,7 +93,7 @@ module CC
             next unless score > config["score_threshold"]
 
             datum = "Complex method %s (%.1f)" % [name, score]
-            issue = self.issue name, datum, location, score
+            issue = issue(name, datum, location, score)
 
             if issue then
               io.print issue.to_json
@@ -119,7 +116,7 @@ module CC
       ##
       # Create an issue hash from +name+, +datum+, +location+, and +score+.
 
-      def issue name, datum, location, score
+      def issue(name, datum, location, score)
         file, l_start, l_end = [$1, $2.to_i, $3.to_i] if
           location =~ /^(.+?):(\d+)-(\d+)$/
 
